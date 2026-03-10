@@ -18,3 +18,13 @@ T-OUT : GPIO21
 “Se monitoreó TOUCH_OUT por Serial a 115200”
 
 “Al tocar el sensor alterna 0/1 (observado: 1,0,1,0,1)”s
+
+
+“Prueba manual: Touch → Relé”
+
+“Condición: flanco 0→1 en T-OUT (D21)”
+
+“Acción: D18 HIGH durante 1s”
+
+“Resultado: relé activó ~1s al tocar sensor (OK)”
+
