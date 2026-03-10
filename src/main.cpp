@@ -123,6 +123,9 @@ void loop() {
 if (Serial.available()) {
   String cmd = Serial.readStringUntil('\n');
   cmd.trim();
+  Serial.print("RAW CMD='");
+  Serial.print(cmd);
+  Serial.println("'");
 
   if (cmd.length() >= 2 && cmd[0] == 'e') {
     int id = cmd.substring(1).toInt();
