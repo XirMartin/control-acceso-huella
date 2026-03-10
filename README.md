@@ -28,3 +28,10 @@ T-OUT : GPIO21
 
 “Resultado: relé activó ~1s al tocar sensor (OK)”
 
+“Prueba manual: Match → Relé”
+
+“Comando: m”
+
+“Resultado esperado: MATCH OK id=1 y relé HIGH 1s”
+
+“Resultado observado: OK”
