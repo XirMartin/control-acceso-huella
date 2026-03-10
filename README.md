@@ -44,8 +44,21 @@ T-OUT : GPIO21
 
 “Resultado: OK”
 
+-----
+
 Se agrega .clang-format
 
 Al guardar se formatea (VS Code settings locales)
 
 Hay pre-commit que verifica formato
+
+-----
+
+agregando cppcheck, comando usado:
+.\tools\cppcheck\cppcheck.exe --enable=warning,style,performance,portability --inline-suppr --std=c++17 --language=c++ --error-exitcode=1 src lib
+
+alcance: src y lib
+
+resultado: sin hallazgos / OK
+
+---
