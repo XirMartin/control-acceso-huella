@@ -35,13 +35,17 @@ void setup() {
 }
 
 void loop() {
-  static int last = -1;
-  int now = digitalRead(PIN_TOUCH_OUT);
-  if (now != last) {
-    Serial.print("TOUCH_OUT=");
-    Serial.println(now);
-    last = now;
+  static int lastTouch = 0;
+  int touch = digitalRead(PIN_TOUCH_OUT);
+
+  // Flanco ascendente: cuando pasa de 0 a 1
+  if (touch == 1 && lastTouch == 0) {
+    Serial.println("TOUCH: activar rele 1s");
+    digitalWrite(PIN_RELE, HIGH);
+    delay(1000);
+    digitalWrite(PIN_RELE, LOW);
   }
 
+  lastTouch = touch;
   delay(20);
 }
