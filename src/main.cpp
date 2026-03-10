@@ -15,6 +15,10 @@ AccessControl ac;
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
+
+  pinMode(PIN_RELE, OUTPUT);
+  digitalWrite(PIN_RELE, LOW);
+
   Serial2.begin(57600, SERIAL_8N1, PIN_DY50_RX, PIN_DY50_TX);
 
   finger.begin(57600);
