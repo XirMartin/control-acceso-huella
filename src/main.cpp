@@ -32,6 +32,8 @@ void setup() {
 
   sensor.begin();
   ac.begin();
+
+  Serial.println("Comandos: e<id> enroll | d<id> delete | m match");
 }
 
 void loop() {
