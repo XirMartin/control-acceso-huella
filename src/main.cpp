@@ -19,5 +19,12 @@ void setup() {
 }
 
 void loop() {
-  delay(1000);
+  static int last = -1;
+  int now = digitalRead(PIN_TOUCH_OUT);
+  if (now != last) {
+    Serial.print("TOUCH_OUT=");
+    Serial.println(now);
+    last = now;
+  }
+  delay(20);
 }
