@@ -131,9 +131,17 @@ void loop() {
     bool ok = enrollFingerprint(id);
     Serial.println(ok ? "ENROLL OK" : "ENROLL FAIL");
     } else if (cmd == "m") {
-      Serial.println("CMD match");
+    Serial.println("CMD match");
+    uint16_t id = 0;
+    bool ok = matchFingerprint(id);
+    if (ok) {
+      Serial.print("MATCH OK id=");
+      Serial.println(id);
+    } else {
+      Serial.println("MATCH FAIL");
     }
   }
+}
 
   delay(20);
 }
