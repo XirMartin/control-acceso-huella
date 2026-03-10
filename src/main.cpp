@@ -11,6 +11,7 @@ AccessControl ac;
 
 void setup() {
   Serial.begin(115200);
+  Serial1.begin(57600, SERIAL_8N1, PIN_DY50_RX, PIN_DY50_TX);
   sensor.begin();
   ac.begin();
 }
