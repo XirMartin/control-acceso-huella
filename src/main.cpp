@@ -1,11 +1,11 @@
-#include <Arduino.h>
-#include "dy50.h"
-#include "access_control.h"
 #include <Adafruit_Fingerprint.h>
+#include <Arduino.h>
+#include "access_control.h"
+#include "dy50.h"
 
 static const int PIN_DY50_RX = 16;    // RX2 (ESP32 DevKit V1)
 static const int PIN_DY50_TX = 17;    // TX2 (ESP32 DevKit V1)
-static const int PIN_RELE    = 18;    // D18 (ESP32 DevKit V1)
+static const int PIN_RELE = 18;       // D18 (ESP32 DevKit V1)
 static const int PIN_TOUCH_OUT = 21;  // D21 (ESP32 DevKit V1)
 
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
@@ -67,8 +67,8 @@ bool enrollFingerprint(int id) {
   return true;
 }
 
-bool matchFingerprint(uint16_t &outId) {
-// Esperar a que haya dedo (bloqueante, como en enroll)
+bool matchFingerprint(uint16_t& outId) {
+  // Esperar a que haya dedo (bloqueante, como en enroll)
   while (finger.getImage() != FINGERPRINT_OK) {
     delay(50);
   }
@@ -120,44 +120,43 @@ void loop() {
 
   lastTouch = touch;
 
-if (Serial.available()) {
-  String cmd = Serial.readStringUntil('\n');
-  cmd.trim();
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();
 
-  if (cmd.length() >= 2 && cmd[0] == 'e') {
-    int id = cmd.substring(1).toInt();
-    Serial.print("CMD enroll id=");
-    Serial.println(id);
-    bool ok = enrollFingerprint(id);
-    Serial.println(ok ? "ENROLL OK" : "ENROLL FAIL");
-  } else if (cmd.length() >= 2 && cmd[0] == 'd') {
-    int id = cmd.substring(1).toInt();
-    Serial.print("CMD delete id=");
-    Serial.println(id);
-    int r = finger.deleteModel(id);
-    if (r == FINGERPRINT_OK) {
-      Serial.println("DELETE OK");
-    } else {
-      Serial.print("DELETE FAIL code=");
-      Serial.println(r);
-    }
-
-
-  } else if (cmd == "m") {
-    Serial.println("CMD match");
-    uint16_t id = 0;
-    bool ok = matchFingerprint(id);
-    if (ok) {
-      Serial.print("MATCH OK id=");
+    if (cmd.length() >= 2 && cmd[0] == 'e') {
+      int id = cmd.substring(1).toInt();
+      Serial.print("CMD enroll id=");
       Serial.println(id);
-      digitalWrite(PIN_RELE, HIGH);
-      delay(1000);
-      digitalWrite(PIN_RELE, LOW);
-    } else {
-      Serial.println("MATCH FAIL");
+      bool ok = enrollFingerprint(id);
+      Serial.println(ok ? "ENROLL OK" : "ENROLL FAIL");
+    } else if (cmd.length() >= 2 && cmd[0] == 'd') {
+      int id = cmd.substring(1).toInt();
+      Serial.print("CMD delete id=");
+      Serial.println(id);
+      int r = finger.deleteModel(id);
+      if (r == FINGERPRINT_OK) {
+        Serial.println("DELETE OK");
+      } else {
+        Serial.print("DELETE FAIL code=");
+        Serial.println(r);
+      }
+
+    } else if (cmd == "m") {
+      Serial.println("CMD match");
+      uint16_t id = 0;
+      bool ok = matchFingerprint(id);
+      if (ok) {
+        Serial.print("MATCH OK id=");
+        Serial.println(id);
+        digitalWrite(PIN_RELE, HIGH);
+        delay(1000);
+        digitalWrite(PIN_RELE, LOW);
+      } else {
+        Serial.println("MATCH FAIL");
+      }
     }
   }
-}
 
   delay(20);
 }
