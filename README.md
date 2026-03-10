@@ -11,3 +11,10 @@ Funciones previstas: enrolar/borrar huellas, abrir puerta, interfaz web con clav
 DY50 UART: RX=GPIO16, TX=GPIO17 (Serial1)
 
 RELÉ: GPIO18
+T-OUT : GPIO21
+
+“Prueba manual: Touch”
+
+“Se monitoreó TOUCH_OUT por Serial a 115200”
+
+“Al tocar el sensor alterna 0/1 (observado: 1,0,1,0,1)”s
