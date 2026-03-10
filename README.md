@@ -62,3 +62,12 @@ alcance: src y lib
 resultado: sin hallazgos / OK
 
 ---
+
+comando para correr tests: platformio.exe test
+
+lista de tests actuales: test_dummy, test_rnf01_rele_inicial
+
+mención: RNF-01 validado (relé inicia LOW)
+
+
+----
