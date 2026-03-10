@@ -71,3 +71,11 @@ mención: RNF-01 validado (relé inicia LOW)
 
 
 ----
+
+archivo de configuración: Doxyfile
+
+comando para generar docs: .\tools\doxygen\doxygen.exe Doxyfile
+
+salida generada en: docs/doxygen/html/
+
+----
