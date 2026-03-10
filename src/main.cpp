@@ -8,6 +8,8 @@ static const int PIN_DY50_TX = 17;    // TX2 (ESP32 DevKit V1)
 static const int PIN_RELE = 18;       // D18 (ESP32 DevKit V1)
 static const int PIN_TOUCH_OUT = 21;  // D21 (ESP32 DevKit V1)
 
+static const bool TEST_FORCE_MATCH = false;
+
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
 Dy50 sensor;
 AccessControl ac;
