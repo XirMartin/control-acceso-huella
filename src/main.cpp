@@ -13,8 +13,8 @@ AccessControl ac;
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
-  Serial1.begin(57600, SERIAL_8N1, PIN_DY50_RX, PIN_DY50_TX);
-  Serial1.write(0x55);
+  Serial2.begin(57600, SERIAL_8N1, PIN_DY50_RX, PIN_DY50_TX);
+  Serial2.write(0x55);
   sensor.begin();
   ac.begin();
 }
@@ -27,9 +27,9 @@ void loop() {
     Serial.println(now);
     last = now;
   }
-  if (Serial1.available()) {
-    int b = Serial1.read();
-   Serial.print("UART1 byte: 0x");
+  if (Serial2.available()) {
+    int b = Serial2.read();
+   Serial.print("UART2 byte: 0x");
    if (b < 16) Serial.print("0");
     Serial.println(b, HEX);
   }  
