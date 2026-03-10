@@ -112,6 +112,8 @@ void loop() {
     Serial.println(id);
     bool ok = enrollFingerprint(id);
     Serial.println(ok ? "ENROLL OK" : "ENROLL FAIL");
+    } else if (cmd == "m") {
+      Serial.println("CMD match");
     }
   }
 
