@@ -68,9 +68,9 @@ bool enrollFingerprint(int id) {
 }
 
 bool matchFingerprint(uint16_t &outId) {
-  // Espera imagen
-  if (finger.getImage() != FINGERPRINT_OK) {
-    return false;
+// Esperar a que haya dedo (bloqueante, como en enroll)
+  while (finger.getImage() != FINGERPRINT_OK) {
+    delay(50);
   }
   // Convierte imagen
   if (finger.image2Tz() != FINGERPRINT_OK) {
