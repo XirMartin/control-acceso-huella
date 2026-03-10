@@ -120,17 +120,21 @@ void loop() {
 
   lastTouch = touch;
 
-  if (Serial.available()) {
-    String cmd = Serial.readStringUntil('\n');
-    cmd.trim();
+if (Serial.available()) {
+  String cmd = Serial.readStringUntil('\n');
+  cmd.trim();
 
-    if (cmd.length() >= 2 && cmd[0] == 'e') {
+  if (cmd.length() >= 2 && cmd[0] == 'e') {
     int id = cmd.substring(1).toInt();
     Serial.print("CMD enroll id=");
     Serial.println(id);
     bool ok = enrollFingerprint(id);
     Serial.println(ok ? "ENROLL OK" : "ENROLL FAIL");
-    } else if (cmd == "m") {
+  } else if (cmd.length() >= 2 && cmd[0] == 'd') {
+    int id = cmd.substring(1).toInt();
+    Serial.print("CMD delete id=");
+    Serial.println(id);
+  } else if (cmd == "m") {
     Serial.println("CMD match");
     uint16_t id = 0;
     bool ok = matchFingerprint(id);
