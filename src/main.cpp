@@ -38,11 +38,6 @@ void loop() {
     Serial.println(now);
     last = now;
   }
-  if (Serial2.available()) {
-    int b = Serial2.read();
-   Serial.print("UART2 byte: 0x");
-   if (b < 16) Serial.print("0");
-    Serial.println(b, HEX);
-  }  
+
   delay(20);
 }
