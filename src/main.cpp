@@ -12,6 +12,61 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
 Dy50 sensor;
 AccessControl ac;
 
+bool enrollFingerprint(int id) {
+  Serial.print("Enroll start id=");
+  Serial.println(id);
+
+  // 1) Esperar imagen
+  while (finger.getImage() != FINGERPRINT_OK) {
+    delay(50);
+  }
+  Serial.println("Image taken");
+
+  // 2) Convertir imagen
+  if (finger.image2Tz(1) != FINGERPRINT_OK) {
+    Serial.println("image2Tz(1) failed");
+    return false;
+  }
+  Serial.println("Image converted (slot 1)");
+
+  // 3) Pedir que quite el dedo
+  Serial.println("Remove finger");
+  delay(1500);
+  while (finger.getImage() != FINGERPRINT_NOFINGER) {
+    delay(50);
+  }
+
+  // 4) Segunda imagen
+  Serial.println("Place same finger again");
+  while (finger.getImage() != FINGERPRINT_OK) {
+    delay(50);
+  }
+  Serial.println("Image taken (2)");
+
+  // 5) Convertir segunda imagen
+  if (finger.image2Tz(2) != FINGERPRINT_OK) {
+    Serial.println("image2Tz(2) failed");
+    return false;
+  }
+  Serial.println("Image converted (slot 2)");
+
+  // 6) Crear modelo
+  if (finger.createModel() != FINGERPRINT_OK) {
+    Serial.println("createModel failed (finger mismatch?)");
+    return false;
+  }
+  Serial.println("Model created");
+
+  // 7) Guardar
+  if (finger.storeModel(id) != FINGERPRINT_OK) {
+    Serial.println("storeModel failed");
+    return false;
+  }
+  Serial.println("Stored!");
+
+  return true;
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
