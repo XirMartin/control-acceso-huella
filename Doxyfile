@@ -1,0 +1,12 @@
+PROJECT_NAME           = "Control de Acceso con Huella"
+OUTPUT_DIRECTORY       = docs/doxygen
+CREATE_SUBDIRS         = NO
+OUTPUT_LANGUAGE        = Spanish
+EXTRACT_ALL            = YES
+RECURSIVE              = YES
+INPUT                  = src lib
+FILE_PATTERNS          = *.h *.cpp
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = YES
