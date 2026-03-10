@@ -9,7 +9,7 @@ static const int PIN_RELE = 18;  // D18
 static const int OBS_MS = 2000;  // ventana de observación
 
 void test_rf05_rele_permanece_low_sin_dedo() {
-  pinMode(PIN_RELE, INPUT);
+  pinMode(PIN_RELE, INPUT_PULLDOWN);
   unsigned long t0 = millis();
   while (millis() - t0 < OBS_MS) {
     int v = digitalRead(PIN_RELE);
