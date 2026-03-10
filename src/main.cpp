@@ -1,18 +1,20 @@
 #include <Arduino.h>
+#include "dy50.h"
+#include "access_control.h"
 
-// put function declarations here:
-int myFunction(int, int);
+static const int PIN_DY50_RX = 16;
+static const int PIN_DY50_TX = 17;
+static const int PIN_RELE    = 18;
+
+Dy50 sensor;
+AccessControl ac;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+  sensor.begin();
+  ac.begin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  delay(1000);
 }
