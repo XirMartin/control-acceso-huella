@@ -1,7 +1,10 @@
 #include <Adafruit_Fingerprint.h>
 #include <Arduino.h>
+#include <WebServer.h>
+#include <WiFi.h>
 #include "access_control.h"
 #include "dy50.h"
+#include "secrets.h"
 
 static const int PIN_DY50_RX = 16;    // RX2 (ESP32 DevKit V1)
 static const int PIN_DY50_TX = 17;    // TX2 (ESP32 DevKit V1)
@@ -13,6 +16,7 @@ static const bool TEST_FORCE_MATCH = false;
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
 Dy50 sensor;
 AccessControl ac;
+WebServer server(80);
 
 bool enrollFingerprint(int id) {
   Serial.print("Enroll start id=");
@@ -92,6 +96,10 @@ bool matchFingerprint(uint16_t& outId) {
   return true;
 }
 
+void handleRoot() {
+  server.send(200, "text/plain", "Control de acceso activo");
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
@@ -114,6 +122,16 @@ void setup() {
   ac.begin();
 
   Serial.println("Comandos: e<id> enroll | d<id> delete | m match");
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.print("WiFi OK. IP: ");
+  Serial.println(WiFi.localIP());
+  server.on("/", handleRoot);
+  server.begin();
 }
 
 void loop() {
@@ -164,6 +182,6 @@ void loop() {
       }
     }
   }
-
+  server.handleClient();
   delay(20);
 }
