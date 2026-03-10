@@ -134,6 +134,15 @@ if (Serial.available()) {
     int id = cmd.substring(1).toInt();
     Serial.print("CMD delete id=");
     Serial.println(id);
+    int r = finger.deleteModel(id);
+    if (r == FINGERPRINT_OK) {
+      Serial.println("DELETE OK");
+    } else {
+      Serial.print("DELETE FAIL code=");
+      Serial.println(r);
+    }
+
+
   } else if (cmd == "m") {
     Serial.println("CMD match");
     uint16_t id = 0;
