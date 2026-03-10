@@ -35,3 +35,11 @@ T-OUT : GPIO21
 “Resultado esperado: MATCH OK id=1 y relé HIGH 1s”
 
 “Resultado observado: OK”
+
+“Prueba manual: Delete”
+
+“Comando: d1 → DELETE OK”
+
+“Luego: m con el mismo dedo → MATCH FAIL”
+
+“Resultado: OK”
