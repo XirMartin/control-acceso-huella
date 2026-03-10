@@ -12,6 +12,7 @@ AccessControl ac;
 
 void setup() {
   Serial.begin(115200);
+  pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
   Serial1.begin(57600, SERIAL_8N1, PIN_DY50_RX, PIN_DY50_TX);
   sensor.begin();
   ac.begin();
