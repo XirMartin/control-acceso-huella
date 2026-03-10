@@ -97,10 +97,7 @@ void loop() {
 
   // Flanco ascendente: cuando pasa de 0 a 1
   if (touch == 1 && lastTouch == 0) {
-    Serial.println("TOUCH: activar rele 1s");
-    digitalWrite(PIN_RELE, HIGH);
-    delay(1000);
-    digitalWrite(PIN_RELE, LOW);
+    Serial.println("TOUCH detectado");
   }
 
   lastTouch = touch;
