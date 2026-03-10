@@ -49,5 +49,17 @@ void loop() {
   }
 
   lastTouch = touch;
+
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();
+
+    if (cmd.length() >= 2 && cmd[0] == 'e') {
+     int id = cmd.substring(1).toInt();
+     Serial.print("CMD enroll id=");
+     Serial.println(id);
+    }
+  }
+
   delay(20);
 }
