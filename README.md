@@ -43,3 +43,9 @@ T-OUT : GPIO21
 “Luego: m con el mismo dedo → MATCH FAIL”
 
 “Resultado: OK”
+
+Se agrega .clang-format
+
+Al guardar se formatea (VS Code settings locales)
+
+Hay pre-commit que verifica formato
