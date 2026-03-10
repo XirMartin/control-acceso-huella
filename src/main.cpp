@@ -110,9 +110,11 @@ void loop() {
     cmd.trim();
 
     if (cmd.length() >= 2 && cmd[0] == 'e') {
-     int id = cmd.substring(1).toInt();
-     Serial.print("CMD enroll id=");
-     Serial.println(id);
+    int id = cmd.substring(1).toInt();
+    Serial.print("CMD enroll id=");
+    Serial.println(id);
+    bool ok = enrollFingerprint(id);
+    Serial.println(ok ? "ENROLL OK" : "ENROLL FAIL");
     }
   }
 
