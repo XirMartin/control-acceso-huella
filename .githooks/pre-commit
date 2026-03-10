@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+echo "[pre-commit] Verificando formato con clang-format..."
+
+FILES="src/main.cpp"
+
+for f in $FILES; do
+  if [ -f "$f" ]; then
+    # Falla si clang-format produciría cambios
+    clang-format --dry-run --Werror "$f"
+  fi
+done
+
+echo "[pre-commit] OK"
