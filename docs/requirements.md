@@ -17,3 +17,9 @@
 **RNF-01 (Arranque seguro):** En el arranque, el relé debe quedar desactivado (LOW).
 
 **RNF-02 (Calidad):** El código debe cumplir el formato definido por `.clang-format` y pasar `cppcheck` sin hallazgos.
+
+## Trazabilidad de pruebas
+
+- **RNF-01** → `test/test_rnf01_rele_inicial/test_rnf01_rele_inicial.cpp`
+- **RF-04** → `test/test_rf04_match_activa_rele/test_rf04_match_activa_rele.cpp`
+- **RF-05** → `test/test_rf05_no_match_no_rele/test_rf05_no_match_no_rele.cpp`
