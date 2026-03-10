@@ -137,6 +137,9 @@ void loop() {
     if (ok) {
       Serial.print("MATCH OK id=");
       Serial.println(id);
+      digitalWrite(PIN_RELE, HIGH);
+      delay(1000);
+      digitalWrite(PIN_RELE, LOW);
     } else {
       Serial.println("MATCH FAIL");
     }
