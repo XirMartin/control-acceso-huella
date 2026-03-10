@@ -67,6 +67,24 @@ bool enrollFingerprint(int id) {
   return true;
 }
 
+bool matchFingerprint(uint16_t &outId) {
+  // Espera imagen
+  if (finger.getImage() != FINGERPRINT_OK) {
+    return false;
+  }
+  // Convierte imagen
+  if (finger.image2Tz() != FINGERPRINT_OK) {
+    return false;
+  }
+  // Busca coincidencia
+  if (finger.fingerSearch() != FINGERPRINT_OK) {
+    return false;
+  }
+
+  outId = finger.fingerID;
+  return true;
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
