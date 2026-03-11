@@ -134,6 +134,9 @@ void handleRoot() {
       "fetch('/enroll?id=1')\">Probar enroll ID 1</button></p>";
   html += "<p>Estado enroll: <span id='status'>Idle</span></p>";
   html +=
+      "<p><button onclick=\"fetch('/delete?id=1').then(r=>r.text()).then(t=>alert(t))\">Borrar ID "
+      "1</button></p>";
+  html +=
       "<p><button onclick=\"fetch('/match').then(r=>r.text()).then(t=>alert(t))\">Probar "
       "match</button></p>";
   html += "<script>";
@@ -192,6 +195,24 @@ void handleMatch() {
   }
 }
 
+void handleDelete() {
+  if (!checkAuth()) return;
+
+  if (!server.hasArg("id")) {
+    server.send(400, "text/plain", "Falta parametro id");
+    return;
+  }
+
+  int id = server.arg("id").toInt();
+  int r = finger.deleteModel(id);
+
+  if (r == FINGERPRINT_OK) {
+    server.send(200, "text/plain", "DELETE OK id=" + String(id));
+  } else {
+    server.send(500, "text/plain", "DELETE FAIL id=" + String(id) + " code=" + String(r));
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
@@ -226,6 +247,7 @@ void setup() {
   server.on("/enroll", handleEnroll);
   server.on("/enroll-status", handleEnrollStatus);
   server.on("/match", handleMatch);
+  server.on("/delete", handleDelete);
   server.on("/favicon.ico", []() { server.send(204); });
   server.begin();
 }
