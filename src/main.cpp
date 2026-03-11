@@ -96,7 +96,16 @@ bool matchFingerprint(uint16_t& outId) {
   return true;
 }
 
+bool checkAuth() {
+  if (!server.authenticate(WEB_USER, WEB_PASS)) {
+    server.requestAuthentication();
+    return false;
+  }
+  return true;
+}
+
 void handleRoot() {
+  if (!checkAuth()) return;
   server.send(200, "text/plain", "Control de acceso activo");
 }
 
