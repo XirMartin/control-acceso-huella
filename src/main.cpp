@@ -106,7 +106,15 @@ bool checkAuth() {
 
 void handleRoot() {
   if (!checkAuth()) return;
-  server.send(200, "text/plain", "Control de acceso activo");
+
+  String html;
+  html += "<!DOCTYPE html><html><head><meta charset='utf-8'>";
+  html += "<title>Control de acceso</title></head><body>";
+  html += "<h1>Control de acceso activo</h1>";
+  html += "<p>ESP32 + DY50</p>";
+  html += "</body></html>";
+
+  server.send(200, "text/html", html);
 }
 
 void setup() {
