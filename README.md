@@ -79,3 +79,15 @@ comando para generar docs: .\tools\doxygen\doxygen.exe Doxyfile
 salida generada en: docs/doxygen/html/
 
 ----
+
+/ → página principal protegida
+
+/enroll?id=1 → enroll por web
+
+/enroll-status → estado del enroll
+
+/match → verifica huella y abre relé si coincide
+
+/delete?id=1 → borra huella
+
+----
