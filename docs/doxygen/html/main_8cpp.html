@@ -93,13 +93,23 @@ $(function(){initNavTree('main_8cpp.html','',''); });
 <div class="contents">
 <div class="textblock"><code>#include &lt;Adafruit_Fingerprint.h&gt;</code><br />
 <code>#include &lt;Arduino.h&gt;</code><br />
+<code>#include &lt;WebServer.h&gt;</code><br />
+<code>#include &lt;WiFi.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="access__control_8h_source.html">access_control.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="dy50_8h_source.html">dy50.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="secrets_8h_source.html">secrets.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Funciones</h2></td></tr>
+<tr class="memitem:a48f3f185be3ea2d153c347a157b38d42" id="r_a48f3f185be3ea2d153c347a157b38d42"><td class="memItemLeft">WebServer&#160;</td><td class="memItemRight"><a class="el" href="#a48f3f185be3ea2d153c347a157b38d42">server</a> (80)</td></tr>
 <tr class="memitem:a448a8fb9527af2b5a8e598c448496fff" id="r_a448a8fb9527af2b5a8e598c448496fff"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a448a8fb9527af2b5a8e598c448496fff">enrollFingerprint</a> (int id)</td></tr>
 <tr class="memitem:a88cf75fa39f5c73e8e5525b7ee676857" id="r_a88cf75fa39f5c73e8e5525b7ee676857"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a88cf75fa39f5c73e8e5525b7ee676857">matchFingerprint</a> (uint16_t &amp;outId)</td></tr>
+<tr class="memitem:a5676e33174a8e843d8f462cd938a768c" id="r_a5676e33174a8e843d8f462cd938a768c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5676e33174a8e843d8f462cd938a768c">checkAuth</a> ()</td></tr>
+<tr class="memitem:a8427468f39342a1990703e9f5ce7fd29" id="r_a8427468f39342a1990703e9f5ce7fd29"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8427468f39342a1990703e9f5ce7fd29">handleRoot</a> ()</td></tr>
+<tr class="memitem:a3539bf23b4acf42a5deebe81f01ee65c" id="r_a3539bf23b4acf42a5deebe81f01ee65c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3539bf23b4acf42a5deebe81f01ee65c">handleEnroll</a> ()</td></tr>
+<tr class="memitem:a218c53465bf496ed805e89558be7b8ea" id="r_a218c53465bf496ed805e89558be7b8ea"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a218c53465bf496ed805e89558be7b8ea">handleEnrollStatus</a> ()</td></tr>
+<tr class="memitem:aa1a701b749a9a378c45bd58cf43471bc" id="r_aa1a701b749a9a378c45bd58cf43471bc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa1a701b749a9a378c45bd58cf43471bc">handleMatch</a> ()</td></tr>
+<tr class="memitem:ae62c10db9ab5631bc909611e5f63a0cf" id="r_ae62c10db9ab5631bc909611e5f63a0cf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae62c10db9ab5631bc909611e5f63a0cf">handleDelete</a> ()</td></tr>
 <tr class="memitem:a4fc01d736fe50cf5b977f755b675f11d" id="r_a4fc01d736fe50cf5b977f755b675f11d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4fc01d736fe50cf5b977f755b675f11d">setup</a> ()</td></tr>
 <tr class="memitem:afe461d27b9c48d5921c00d521181f12f" id="r_afe461d27b9c48d5921c00d521181f12f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afe461d27b9c48d5921c00d521181f12f">loop</a> ()</td></tr>
 </table><table class="memberdecls">
@@ -108,8 +118,31 @@ Variables</h2></td></tr>
 <tr class="memitem:aee33606416863902d6a34385c239bf3c" id="r_aee33606416863902d6a34385c239bf3c"><td class="memItemLeft">Adafruit_Fingerprint&#160;</td><td class="memItemRight"><a class="el" href="#aee33606416863902d6a34385c239bf3c">finger</a> = Adafruit_Fingerprint(&amp;Serial2)</td></tr>
 <tr class="memitem:a3792bdc50c9f30e52859c067288e288d" id="r_a3792bdc50c9f30e52859c067288e288d"><td class="memItemLeft"><a class="el" href="class_dy50.html">Dy50</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3792bdc50c9f30e52859c067288e288d">sensor</a></td></tr>
 <tr class="memitem:a3534817daea4a2c593f7927bb38d997a" id="r_a3534817daea4a2c593f7927bb38d997a"><td class="memItemLeft"><a class="el" href="class_access_control.html">AccessControl</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3534817daea4a2c593f7927bb38d997a">ac</a></td></tr>
+<tr class="memitem:afbb7050d2f9ae0cde70566e894f640c6" id="r_afbb7050d2f9ae0cde70566e894f640c6"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#afbb7050d2f9ae0cde70566e894f640c6">enrollStatus</a> = &quot;Idle&quot;</td></tr>
+<tr class="memitem:abf8e26beea58d16353ed1348a3ead6a1" id="r_abf8e26beea58d16353ed1348a3ead6a1"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abf8e26beea58d16353ed1348a3ead6a1">enrollRequested</a> = false</td></tr>
+<tr class="memitem:a40c17f961edfcbbf9e42d0134db6e224" id="r_a40c17f961edfcbbf9e42d0134db6e224"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a40c17f961edfcbbf9e42d0134db6e224">enrollRequestedId</a> = 0</td></tr>
+<tr class="memitem:afe080313dba0a4a8d9dbbcde665220e9" id="r_afe080313dba0a4a8d9dbbcde665220e9"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#afe080313dba0a4a8d9dbbcde665220e9">enrollStep</a> = 0</td></tr>
+<tr class="memitem:a7940d61cb1b5fb4154d4ebf44ac428d4" id="r_a7940d61cb1b5fb4154d4ebf44ac428d4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a7940d61cb1b5fb4154d4ebf44ac428d4">enrollInProgress</a> = false</td></tr>
+<tr class="memitem:ada2894eb486f139662f3d7709d03e6b2" id="r_ada2894eb486f139662f3d7709d03e6b2"><td class="memItemLeft">unsigned long&#160;</td><td class="memItemRight"><a class="el" href="#ada2894eb486f139662f3d7709d03e6b2">enrollStepTs</a> = 0</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentación de funciones</h2>
+<a id="a5676e33174a8e843d8f462cd938a768c" name="a5676e33174a8e843d8f462cd938a768c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5676e33174a8e843d8f462cd938a768c">&#9670;&#160;</a></span>checkAuth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool checkAuth </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a448a8fb9527af2b5a8e598c448496fff" name="a448a8fb9527af2b5a8e598c448496fff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a448a8fb9527af2b5a8e598c448496fff">&#9670;&#160;</a></span>enrollFingerprint()</h2>
 
@@ -120,6 +153,91 @@ Variables</h2></td></tr>
           <td class="memname">bool enrollFingerprint </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae62c10db9ab5631bc909611e5f63a0cf" name="ae62c10db9ab5631bc909611e5f63a0cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae62c10db9ab5631bc909611e5f63a0cf">&#9670;&#160;</a></span>handleDelete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handleDelete </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3539bf23b4acf42a5deebe81f01ee65c" name="a3539bf23b4acf42a5deebe81f01ee65c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3539bf23b4acf42a5deebe81f01ee65c">&#9670;&#160;</a></span>handleEnroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handleEnroll </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a218c53465bf496ed805e89558be7b8ea" name="a218c53465bf496ed805e89558be7b8ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a218c53465bf496ed805e89558be7b8ea">&#9670;&#160;</a></span>handleEnrollStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handleEnrollStatus </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1a701b749a9a378c45bd58cf43471bc" name="aa1a701b749a9a378c45bd58cf43471bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a701b749a9a378c45bd58cf43471bc">&#9670;&#160;</a></span>handleMatch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handleMatch </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8427468f39342a1990703e9f5ce7fd29" name="a8427468f39342a1990703e9f5ce7fd29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8427468f39342a1990703e9f5ce7fd29">&#9670;&#160;</a></span>handleRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handleRoot </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -161,6 +279,23 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a48f3f185be3ea2d153c347a157b38d42" name="a48f3f185be3ea2d153c347a157b38d42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48f3f185be3ea2d153c347a157b38d42">&#9670;&#160;</a></span>server()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">WebServer server </td>
+          <td>(</td>
+          <td class="paramtype">80</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a4fc01d736fe50cf5b977f755b675f11d" name="a4fc01d736fe50cf5b977f755b675f11d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4fc01d736fe50cf5b977f755b675f11d">&#9670;&#160;</a></span>setup()</h2>
 
@@ -187,6 +322,90 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_access_control.html">AccessControl</a> ac</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7940d61cb1b5fb4154d4ebf44ac428d4" name="a7940d61cb1b5fb4154d4ebf44ac428d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7940d61cb1b5fb4154d4ebf44ac428d4">&#9670;&#160;</a></span>enrollInProgress</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool enrollInProgress = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abf8e26beea58d16353ed1348a3ead6a1" name="abf8e26beea58d16353ed1348a3ead6a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf8e26beea58d16353ed1348a3ead6a1">&#9670;&#160;</a></span>enrollRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool enrollRequested = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40c17f961edfcbbf9e42d0134db6e224" name="a40c17f961edfcbbf9e42d0134db6e224"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40c17f961edfcbbf9e42d0134db6e224">&#9670;&#160;</a></span>enrollRequestedId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enrollRequestedId = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afbb7050d2f9ae0cde70566e894f640c6" name="afbb7050d2f9ae0cde70566e894f640c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbb7050d2f9ae0cde70566e894f640c6">&#9670;&#160;</a></span>enrollStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String enrollStatus = &quot;Idle&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe080313dba0a4a8d9dbbcde665220e9" name="afe080313dba0a4a8d9dbbcde665220e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe080313dba0a4a8d9dbbcde665220e9">&#9670;&#160;</a></span>enrollStep</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enrollStep = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada2894eb486f139662f3d7709d03e6b2" name="ada2894eb486f139662f3d7709d03e6b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada2894eb486f139662f3d7709d03e6b2">&#9670;&#160;</a></span>enrollStepTs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long enrollStepTs = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sensor_0',['sensor',['../main_8cpp.html#a3792bdc50c9f30e52859c067288e288d',1,'main.cpp']]]
+  ['finger_0',['finger',['../main_8cpp.html#aee33606416863902d6a34385c239bf3c',1,'main.cpp']]]
 ];
