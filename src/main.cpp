@@ -12,6 +12,8 @@ static const int PIN_RELE = 18;       // D18 (ESP32 DevKit V1)
 static const int PIN_TOUCH_OUT = 21;  // D21 (ESP32 DevKit V1)
 
 static const bool TEST_FORCE_MATCH = false;
+static const bool AUTO_MATCH_ENABLED = true;
+bool autoMatchArmed = true;
 
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
 Dy50 sensor;
@@ -382,6 +384,21 @@ void loop() {
     }
     enrollInProgress = false;
     enrollStep = 0;
+  }
+
+  if (finger.getImage() == FINGERPRINT_NOFINGER) {
+    autoMatchArmed = true;
+  }
+
+  if (AUTO_MATCH_ENABLED && autoMatchArmed && !enrollInProgress) {
+    uint16_t id = 0;
+    if (matchFingerprint(id)) {
+      autoMatchArmed = false;
+      enrollStatus = "MATCH OK id=" + String(id);
+      digitalWrite(PIN_RELE, HIGH);
+      delay(1000);
+      digitalWrite(PIN_RELE, LOW);
+    }
   }
 
   server.handleClient();
