@@ -44,3 +44,16 @@
 1. Encender o resetear el ESP32.
 2. Observar el relé al inicio.
 **Resultado esperado:** El relé permanece desactivado al arrancar.
+
+
+## PA-06 — Operación web con ID variable
+**Requisito asociado:** RF-01, RF-02, RF-03, RF-04, RF-05  
+**Precondición:** ESP32 conectado a WiFi y acceso autenticado a la interfaz web.  
+**Pasos:**
+1. Abrir la página principal del sistema.
+2. Ingresar un ID en el campo numérico.
+3. Ejecutar `Enroll ID indicado` y completar el enrolado.
+4. Ejecutar `Probar match` con el dedo recién enrolado.
+5. Ejecutar `Borrar ID indicado`.
+6. Volver a ejecutar `Probar match` con el mismo dedo.
+**Resultado esperado:** El enroll finaliza correctamente, el match válido activa el relé, el delete borra la huella y el match posterior falla.
