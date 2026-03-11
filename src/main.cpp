@@ -128,13 +128,17 @@ void handleRoot() {
   html += "<!DOCTYPE html><html><head><meta charset='utf-8'>";
   html += "<title>Control de acceso</title></head><body>";
   html += "<h1>Control de acceso activo</h1>";
+  html += "<p>ID: <input id='fid' type='number' min='1' value='1'></p>";
   html +=
       "<p><button onclick=\"window.lastEnrollClick=Date.now(); "
       "document.getElementById('status').innerText='Solicitud de enroll enviada'; "
-      "fetch('/enroll?id=1')\">Probar enroll ID 1</button></p>";
+      "fetch('/enroll?id='+document.getElementById('fid').value)\">Probar enroll ID 1</button></p>";
   html += "<p>Estado enroll: <span id='status'>Idle</span></p>";
   html +=
-      "<p><button onclick=\"fetch('/delete?id=1').then(r=>r.text()).then(t=>alert(t))\">Borrar ID "
+      "<p><button "
+      "onclick=\"fetch('/"
+      "delete?id='+document.getElementById('fid').value).then(r=>r.text()).then(t=>alert(t))\">"
+      "Borrar ID "
       "1</button></p>";
   html +=
       "<p><button onclick=\"fetch('/match').then(r=>r.text()).then(t=>alert(t))\">Probar "
@@ -181,8 +185,12 @@ void handleEnrollStatus() {
 
 void handleMatch() {
   if (!checkAuth()) return;
-
+  enrollStatus = "Esperando dedo para match";
   uint16_t id = 0;
+
+  while (finger.getImage() != FINGERPRINT_NOFINGER) {
+    delay(50);
+  }
   bool ok = matchFingerprint(id);
 
   if (ok) {
