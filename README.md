@@ -91,3 +91,14 @@ salida generada en: docs/doxygen/html/
 /delete?id=1 → borra huella
 
 ----
+resultado actual de la batería de tests:
+
+test_dummy → PASSED
+
+test_rf04_match_activa_rele → PASSED
+
+test_rf05_no_match_no_rele → PASSED
+
+test_rnf01_rele_inicial → PASSED
+
+----
