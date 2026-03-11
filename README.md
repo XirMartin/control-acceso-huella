@@ -108,3 +108,14 @@ el sistema, en funcionamiento normal, realiza match automático
 y una huella válida activa el relé 1 segundo sin usar serial ni web
 
 ----
+
+Ultimas pruebas:
+
+================================== SUMMARY ===================================== 
+Environment               Test                         Status    Duration
+------------------------  ---------------------------  --------  ------------
+rymcu-esp32-s3-devkitc-1  test_dummy                   PASSED    00:00:09.147
+rymcu-esp32-s3-devkitc-1  test_rf04_match_activa_rele  PASSED    00:00:10.096
+rymcu-esp32-s3-devkitc-1  test_rf05_no_match_no_rele   PASSED    00:00:11.244
+rymcu-esp32-s3-devkitc-1  test_rnf01_rele_inicial      PASSED    00:00:32.577
+=============== 4 test cases: 4 succeeded in 00:01:03.063 ======================
