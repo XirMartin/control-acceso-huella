@@ -18,15 +18,25 @@ Dy50 sensor;
 AccessControl ac;
 WebServer server(80);
 
+String enrollStatus = "Idle";
+bool enrollRequested = false;
+int enrollRequestedId = 0;
+
+int enrollStep = 0;
+bool enrollInProgress = false;
+unsigned long enrollStepTs = 0;
+
 bool enrollFingerprint(int id) {
   Serial.print("Enroll start id=");
   Serial.println(id);
+  enrollStatus = "Esperando primer dedo";
 
   // 1) Esperar imagen
   while (finger.getImage() != FINGERPRINT_OK) {
     delay(50);
   }
   Serial.println("Image taken");
+  enrollStatus = "Primera imagen tomada";
 
   // 2) Convertir imagen
   if (finger.image2Tz(1) != FINGERPRINT_OK) {
@@ -37,6 +47,8 @@ bool enrollFingerprint(int id) {
 
   // 3) Pedir que quite el dedo
   Serial.println("Remove finger");
+  enrollStatus = "Retire el dedo";
+
   delay(1500);
   while (finger.getImage() != FINGERPRINT_NOFINGER) {
     delay(50);
@@ -44,10 +56,12 @@ bool enrollFingerprint(int id) {
 
   // 4) Segunda imagen
   Serial.println("Place same finger again");
+  enrollStatus = "Coloque el mismo dedo nuevamente";
   while (finger.getImage() != FINGERPRINT_OK) {
     delay(50);
   }
   Serial.println("Image taken (2)");
+  enrollStatus = "Segunda imagen tomada";
 
   // 5) Convertir segunda imagen
   if (finger.image2Tz(2) != FINGERPRINT_OK) {
@@ -62,13 +76,16 @@ bool enrollFingerprint(int id) {
     return false;
   }
   Serial.println("Model created");
+  enrollStatus = "Modelo creado";
 
   // 7) Guardar
   if (finger.storeModel(id) != FINGERPRINT_OK) {
     Serial.println("storeModel failed");
+    enrollStatus = "Error al guardar la huella";
     return false;
   }
   Serial.println("Stored!");
+  enrollStatus = "Enrolado exitoso";
 
   return true;
 }
@@ -111,7 +128,22 @@ void handleRoot() {
   html += "<!DOCTYPE html><html><head><meta charset='utf-8'>";
   html += "<title>Control de acceso</title></head><body>";
   html += "<h1>Control de acceso activo</h1>";
-  html += "<p><a href='/enroll?id=1'>Probar enroll ID 1</a></p>";
+  html +=
+      "<p><button onclick=\"window.lastEnrollClick=Date.now(); "
+      "document.getElementById('status').innerText='Solicitud de enroll enviada'; "
+      "fetch('/enroll?id=1')\">Probar enroll ID 1</button></p>";
+  html += "<p>Estado enroll: <span id='status'>Idle</span></p>";
+
+  html += "<script>";
+  html += "window.lastEnrollClick=0;";
+  html += "setInterval(async()=>{";
+  html += "  if (Date.now()-window.lastEnrollClick < 3000) return;";
+  html += "  const r = await fetch('/enroll-status');";
+  html += "  const t = await r.text();";
+  html += "  document.getElementById('status').innerText = t;";
+  html += "}, 1000);";
+  html += "</script>";
+
   html += "</body></html>";
 
   server.send(200, "text/html", html);
@@ -126,7 +158,20 @@ void handleEnroll() {
   }
 
   int id = server.arg("id").toInt();
-  server.send(200, "text/plain", "Pendiente: enroll id=" + String(id));
+
+  enrollRequestedId = id;
+  enrollRequested = true;
+  enrollInProgress = true;
+  enrollStep = 1;
+  enrollStepTs = millis();
+  enrollStatus = "Solicitud de enroll enviada";
+
+  server.send(200, "text/plain", "ENROLL START id=" + String(id));
+}
+
+void handleEnrollStatus() {
+  if (!checkAuth()) return;
+  server.send(200, "text/plain", enrollStatus);
 }
 
 void setup() {
@@ -161,6 +206,7 @@ void setup() {
   Serial.println(WiFi.localIP());
   server.on("/", handleRoot);
   server.on("/enroll", handleEnroll);
+  server.on("/enroll-status", handleEnrollStatus);
   server.on("/favicon.ico", []() { server.send(204); });
   server.begin();
 }
@@ -213,6 +259,82 @@ void loop() {
       }
     }
   }
+
+  if (enrollRequested) {
+    enrollRequested = false;
+  }
+
+  if (enrollInProgress && enrollStep == 1) {
+    enrollStatus = "Esperando primer dedo";
+    if (finger.getImage() == FINGERPRINT_OK) {
+      enrollStatus = "Primera imagen tomada";
+      enrollStep = 2;
+      enrollStepTs = millis();
+    }
+  }
+
+  if (enrollInProgress && enrollStep == 2) {
+    if (finger.image2Tz(1) == FINGERPRINT_OK) {
+      enrollStatus = "Retire el dedo";
+      enrollStep = 3;
+      enrollStepTs = millis();
+    } else {
+      enrollStatus = "Error en primera conversion";
+      enrollInProgress = false;
+      enrollStep = 0;
+    }
+  }
+
+  if (enrollInProgress && enrollStep == 3) {
+    if (finger.getImage() == FINGERPRINT_NOFINGER) {
+      enrollStatus = "Coloque el mismo dedo nuevamente";
+      enrollStep = 4;
+      enrollStepTs = millis();
+    }
+  }
+
+  if (enrollInProgress && enrollStep == 4) {
+    if (finger.getImage() == FINGERPRINT_OK) {
+      enrollStatus = "Segunda imagen tomada";
+      enrollStep = 5;
+      enrollStepTs = millis();
+    }
+  }
+
+  if (enrollInProgress && enrollStep == 5) {
+    if (finger.image2Tz(2) == FINGERPRINT_OK) {
+      enrollStatus = "Creando modelo";
+      enrollStep = 6;
+      enrollStepTs = millis();
+    } else {
+      enrollStatus = "Error en segunda conversion";
+      enrollInProgress = false;
+      enrollStep = 0;
+    }
+  }
+
+  if (enrollInProgress && enrollStep == 6) {
+    if (finger.createModel() == FINGERPRINT_OK) {
+      enrollStatus = "Guardando huella";
+      enrollStep = 7;
+      enrollStepTs = millis();
+    } else {
+      enrollStatus = "Error al crear modelo";
+      enrollInProgress = false;
+      enrollStep = 0;
+    }
+  }
+
+  if (enrollInProgress && enrollStep == 7) {
+    if (finger.storeModel(enrollRequestedId) == FINGERPRINT_OK) {
+      enrollStatus = "Enrolado exitoso";
+    } else {
+      enrollStatus = "Error al guardar la huella";
+    }
+    enrollInProgress = false;
+    enrollStep = 0;
+  }
+
   server.handleClient();
   delay(20);
 }
