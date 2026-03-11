@@ -133,7 +133,9 @@ void handleRoot() {
       "document.getElementById('status').innerText='Solicitud de enroll enviada'; "
       "fetch('/enroll?id=1')\">Probar enroll ID 1</button></p>";
   html += "<p>Estado enroll: <span id='status'>Idle</span></p>";
-
+  html +=
+      "<p><button onclick=\"fetch('/match').then(r=>r.text()).then(t=>alert(t))\">Probar "
+      "match</button></p>";
   html += "<script>";
   html += "window.lastEnrollClick=0;";
   html += "setInterval(async()=>{";
@@ -174,6 +176,22 @@ void handleEnrollStatus() {
   server.send(200, "text/plain", enrollStatus);
 }
 
+void handleMatch() {
+  if (!checkAuth()) return;
+
+  uint16_t id = 0;
+  bool ok = matchFingerprint(id);
+
+  if (ok) {
+    digitalWrite(PIN_RELE, HIGH);
+    delay(1000);
+    digitalWrite(PIN_RELE, LOW);
+    server.send(200, "text/plain", "MATCH OK id=" + String(id));
+  } else {
+    server.send(200, "text/plain", "MATCH FAIL");
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
@@ -207,6 +225,7 @@ void setup() {
   server.on("/", handleRoot);
   server.on("/enroll", handleEnroll);
   server.on("/enroll-status", handleEnrollStatus);
+  server.on("/match", handleMatch);
   server.on("/favicon.ico", []() { server.send(204); });
   server.begin();
 }
