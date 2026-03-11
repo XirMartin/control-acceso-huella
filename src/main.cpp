@@ -132,14 +132,14 @@ void handleRoot() {
   html +=
       "<p><button onclick=\"window.lastEnrollClick=Date.now(); "
       "document.getElementById('status').innerText='Solicitud de enroll enviada'; "
-      "fetch('/enroll?id='+document.getElementById('fid').value)\">Probar enroll ID 1</button></p>";
+      "fetch('/enroll?id='+document.getElementById('fid').value)\">Enroll ID indicado</button></p>";
   html += "<p>Estado enroll: <span id='status'>Idle</span></p>";
   html +=
       "<p><button "
       "onclick=\"fetch('/"
       "delete?id='+document.getElementById('fid').value).then(r=>r.text()).then(t=>alert(t))\">"
-      "Borrar ID "
-      "1</button></p>";
+      "Borrar ID indicado"
+      "</button></p>";
   html +=
       "<p><button onclick=\"fetch('/match').then(r=>r.text()).then(t=>alert(t))\">Probar "
       "match</button></p>";
