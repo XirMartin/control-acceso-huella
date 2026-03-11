@@ -20,6 +20,8 @@
 
 **RF-09 (Web - match):** El sistema debe permitir ejecutar un match desde la interfaz web y mostrar el resultado.
 
+**RF-10 (Auto match):** El sistema debe detectar automáticamente una huella válida y activar el relé durante 1 segundo, sin necesidad de comando serial ni acción desde la interfaz web.
+
 ## No funcionales
 
 **RNF-01 (Arranque seguro):** En el arranque, el relé debe quedar desactivado (LOW).
@@ -35,3 +37,4 @@
 - **RF-07** → `docs/acceptance-tests.md` (PA-06)
 - **RF-08** → `docs/acceptance-tests.md` (PA-06)
 - **RF-09** → `docs/acceptance-tests.md` (PA-06)
+- **RF-10** → validación manual sobre hardware (apertura automática con huella enrolada)
