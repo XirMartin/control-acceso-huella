@@ -57,3 +57,12 @@
 5. Ejecutar `Borrar ID indicado`.
 6. Volver a ejecutar `Probar match` con el mismo dedo.
 **Resultado esperado:** El enroll finaliza correctamente, el match válido activa el relé, el delete borra la huella y el match posterior falla.
+
+## PA-07 — Apertura automática con huella válida
+**Requisito asociado:** RF-10  
+**Precondición:** Existe una huella válida enrolada en el sensor.  
+**Pasos:**
+1. Encender el sistema y dejarlo en funcionamiento normal.
+2. No enviar comandos por serial ni usar botones de la web.
+3. Colocar un dedo previamente enrolado sobre el sensor.
+**Resultado esperado:** El sistema detecta automáticamente la huella válida y activa el relé durante 1 segundo.
