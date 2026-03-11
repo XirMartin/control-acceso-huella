@@ -102,3 +102,9 @@ test_rf05_no_match_no_rele → PASSED
 test_rnf01_rele_inicial → PASSED
 
 ----
+
+el sistema, en funcionamiento normal, realiza match automático
+
+y una huella válida activa el relé 1 segundo sin usar serial ni web
+
+----
