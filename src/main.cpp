@@ -111,10 +111,22 @@ void handleRoot() {
   html += "<!DOCTYPE html><html><head><meta charset='utf-8'>";
   html += "<title>Control de acceso</title></head><body>";
   html += "<h1>Control de acceso activo</h1>";
-  html += "<p>ESP32 + DY50</p>";
+  html += "<p><a href='/enroll?id=1'>Probar enroll ID 1</a></p>";
   html += "</body></html>";
 
   server.send(200, "text/html", html);
+}
+
+void handleEnroll() {
+  if (!checkAuth()) return;
+
+  if (!server.hasArg("id")) {
+    server.send(400, "text/plain", "Falta parametro id");
+    return;
+  }
+
+  int id = server.arg("id").toInt();
+  server.send(200, "text/plain", "Pendiente: enroll id=" + String(id));
 }
 
 void setup() {
@@ -148,6 +160,8 @@ void setup() {
   Serial.print("WiFi OK. IP: ");
   Serial.println(WiFi.localIP());
   server.on("/", handleRoot);
+  server.on("/enroll", handleEnroll);
+  server.on("/favicon.ico", []() { server.send(204); });
   server.begin();
 }
 
