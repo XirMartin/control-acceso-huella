@@ -56,10 +56,6 @@ Hay pre-commit que verifica formato
 
 cppcheck se ejecuta automáticamente desde el pre-commit sobre src y lib.
 
-alcance: src y lib
-
-resultado: sin hallazgos / OK
-
 ---
 
 comando para correr tests: platformio.exe test
