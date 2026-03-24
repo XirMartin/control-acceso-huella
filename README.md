@@ -4,7 +4,7 @@ Funciones previstas: enrolar/borrar huellas, abrir puerta, interfaz web con clav
 
 “Los tests unitarios se ejecutarán on-target con pio test cuando esté disponible el hardware.”
 
-“El entorno native se dejó comentado porque en Windows requiere gcc/g++.”
+“El entorno native está habilitado para probar la lógica desacoplada de hardware (por ejemplo, access_control). En Windows requiere disponer de gcc/g++.”
 
 “Asignación de pines”
 
@@ -54,8 +54,7 @@ Hay pre-commit que verifica formato
 
 -----
 
-agregando cppcheck, comando usado:
-.\tools\cppcheck\cppcheck.exe --enable=warning,style,performance,portability --inline-suppr --std=c++17 --language=c++ --error-exitcode=1 src lib
+cppcheck se ejecuta automáticamente desde el pre-commit sobre src y lib.
 
 alcance: src y lib
 
@@ -74,7 +73,7 @@ mención: RNF-01 validado (relé inicia LOW)
 
 archivo de configuración: Doxyfile
 
-comando para generar docs: .\tools\doxygen\doxygen.exe Doxyfile
+comando para generar docs: doxygen Doxyfile
 
 salida generada en: docs/doxygen/html/
 
