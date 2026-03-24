@@ -19,3 +19,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+----------------------------------------------------------------
+Third-Party Components / Componentes de terceros
+----------------------------------------------------------------
+
+This project uses third-party software components with their own licenses.
+
+1) Adafruit Fingerprint Sensor Library
+   Source: https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library
+   License: MIT
+
+2) Unity Test Framework
+   Source: https://github.com/ThrowTheSwitch/Unity
+   License: MIT
+
+These components are distributed under their respective licenses.
+Their copyright belongs to their respective authors.

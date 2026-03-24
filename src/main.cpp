@@ -13,7 +13,6 @@ static const int PIN_TOUCH_OUT = 21;  // D21 (ESP32 DevKit V1)
 
 static const bool TEST_FORCE_MATCH = false;
 static const bool AUTO_MATCH_ENABLED = true;
-bool autoMatchArmed = true;
 
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial2);
 Dy50 sensor;
@@ -28,6 +27,16 @@ int enrollStep = 0;
 bool enrollInProgress = false;
 unsigned long enrollStepTs = 0;
 
+/**
+ * @brief Realiza el enrolado de una huella en el sensor.
+ *
+ * Captura la huella dos veces, genera el modelo biométrico
+ * y lo almacena en la posición indicada dentro del sensor.
+ *
+ * @param id Identificador donde se guardará la huella.
+ * @return true si el enrolado finaliza correctamente.
+ * @return false si ocurre un error en alguna etapa del proceso.
+ */
 bool enrollFingerprint(int id) {
   Serial.print("Enroll start id=");
   Serial.println(id);
@@ -92,6 +101,16 @@ bool enrollFingerprint(int id) {
   return true;
 }
 
+/**
+ * @brief Busca coincidencias para una huella capturada.
+ *
+ * Toma una huella presentada en el sensor, la convierte a plantilla
+ * y la compara con las huellas almacenadas para obtener una coincidencia.
+ *
+ * @param outId Variable donde se devuelve el identificador encontrado.
+ * @return true si se encontró una coincidencia válida.
+ * @return false si no hubo coincidencia o ocurrió un error.
+ */
 bool matchFingerprint(uint16_t& outId) {
   if (TEST_FORCE_MATCH) {
     outId = 999;
@@ -115,6 +134,15 @@ bool matchFingerprint(uint16_t& outId) {
   return true;
 }
 
+/**
+ * @brief Verifica si la solicitud HTTP está autenticada.
+ *
+ * Comprueba la presencia y validez de las credenciales enviadas
+ * por el cliente antes de permitir operaciones protegidas.
+ *
+ * @return true si la autenticación es válida.
+ * @return false si la solicitud no está autenticada.
+ */
 bool checkAuth() {
   if (!server.authenticate(WEB_USER, WEB_PASS)) {
     server.requestAuthentication();
@@ -123,6 +151,12 @@ bool checkAuth() {
   return true;
 }
 
+/**
+ * @brief Atiende la ruta principal del servidor web.
+ *
+ * Genera y envía la página principal de la interfaz web,
+ * desde donde el usuario puede acceder a las operaciones del sistema.
+ */
 void handleRoot() {
   if (!checkAuth()) return;
 
@@ -160,6 +194,12 @@ void handleRoot() {
   server.send(200, "text/html", html);
 }
 
+/**
+ * @brief Atiende la solicitud de enrolado de una nueva huella.
+ *
+ * Procesa la petición recibida desde la interfaz web, valida los datos
+ * necesarios y ejecuta el procedimiento de registro en el sensor.
+ */
 void handleEnroll() {
   if (!checkAuth()) return;
 
@@ -180,11 +220,23 @@ void handleEnroll() {
   server.send(200, "text/plain", "ENROLL START id=" + String(id));
 }
 
+/**
+ * @brief Informa el estado actual del proceso de enrolado.
+ *
+ * Devuelve al cliente web información sobre el avance o resultado
+ * del enrolado que se esté ejecutando en el sistema.
+ */
 void handleEnrollStatus() {
   if (!checkAuth()) return;
   server.send(200, "text/plain", enrollStatus);
 }
 
+/**
+ * @brief Atiende la solicitud de verificación de huella.
+ *
+ * Ejecuta el proceso de captura y comparación de una huella
+ * y devuelve al cliente web el resultado de la verificación.
+ */
 void handleMatch() {
   if (!checkAuth()) return;
   enrollStatus = "Esperando dedo para match";
@@ -205,6 +257,12 @@ void handleMatch() {
   }
 }
 
+/**
+ * @brief Atiende la solicitud de eliminación de una huella almacenada.
+ *
+ * Procesa el pedido recibido desde la interfaz web y ordena al sensor
+ * borrar la huella asociada al identificador indicado.
+ */
 void handleDelete() {
   if (!checkAuth()) return;
 
@@ -223,6 +281,13 @@ void handleDelete() {
   }
 }
 
+/**
+ * @brief Inicializa el sistema al arrancar el microcontrolador.
+ *
+ * Configura los pines, la comunicación serie, el sensor de huellas,
+ * la conectividad WiFi y las rutas del servidor web necesarias
+ * para el funcionamiento del sistema.
+ */
 void setup() {
   Serial.begin(115200);
   pinMode(PIN_TOUCH_OUT, INPUT_PULLDOWN);
@@ -262,6 +327,13 @@ void setup() {
   server.begin();
 }
 
+/**
+ * @brief Ejecuta continuamente las tareas principales del sistema.
+ *
+ * Atiende las solicitudes del servidor web, mantiene actualizados
+ * los servicios en ejecución y coordina el funcionamiento general
+ * del control de acceso.
+ */
 void loop() {
   static int lastTouch = 0;
   int touch = digitalRead(PIN_TOUCH_OUT);
@@ -311,9 +383,7 @@ void loop() {
     }
   }
 
-  if (enrollRequested) {
-    enrollRequested = false;
-  }
+  enrollRequested = false;
 
   if (enrollInProgress && enrollStep == 1) {
     enrollStatus = "Esperando primer dedo";
@@ -387,13 +457,13 @@ void loop() {
   }
 
   if (finger.getImage() == FINGERPRINT_NOFINGER) {
-    autoMatchArmed = true;
+    ac.armAutoMatch();
   }
 
-  if (AUTO_MATCH_ENABLED && autoMatchArmed && !enrollInProgress) {
+  if (AUTO_MATCH_ENABLED && ac.canTryAutoMatch(enrollInProgress)) {
     uint16_t id = 0;
     if (matchFingerprint(id)) {
-      autoMatchArmed = false;
+      ac.handleMatchResult(true);
       enrollStatus = "MATCH OK id=" + String(id);
       digitalWrite(PIN_RELE, HIGH);
       delay(1000);

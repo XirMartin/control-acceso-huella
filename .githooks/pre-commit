@@ -2,14 +2,20 @@
 set -e
 
 echo "[pre-commit] Verificando formato con clang-format..."
-
-FILES="src/main.cpp"
+FILES=$(find src lib include test -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" \))
 
 for f in $FILES; do
   if [ -f "$f" ]; then
-    # Falla si clang-format produciría cambios
     clang-format --dry-run --Werror "$f"
   fi
 done
+
+echo "[pre-commit] Ejecutando cppcheck..."
+"/c/Program Files/Cppcheck/cppcheck.exe" --enable=warning,style,performance,portability \
+  --inline-suppr \
+  --std=c++17 \
+  --language=c++ \
+  --error-exitcode=1 \
+  src lib include
 
 echo "[pre-commit] OK"
