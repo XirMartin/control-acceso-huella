@@ -1,6 +1,8 @@
 #include <unity.h>
 
-void test_dummy_ok() { TEST_ASSERT_TRUE(true); }
+void test_dummy_ok() {
+  TEST_ASSERT_TRUE(true);
+}
 
 void setup() {
   UNITY_BEGIN();

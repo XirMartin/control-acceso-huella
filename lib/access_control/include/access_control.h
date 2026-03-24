@@ -1,6 +1,6 @@
 #pragma once
 
 class AccessControl {
-public:
+ public:
   bool begin();
 };

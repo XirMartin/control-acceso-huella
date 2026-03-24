@@ -1,6 +1,6 @@
 #pragma once
 
 class Dy50 {
-public:
+ public:
   bool begin();
 };
