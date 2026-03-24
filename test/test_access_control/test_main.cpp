@@ -2,6 +2,10 @@
 
 #include "access_control.h"
 
+void setUp(void) {}
+
+void tearDown(void) {}
+
 void test_begin_habilita_automatch() {
   AccessControl ac;
   TEST_ASSERT_TRUE(ac.begin());
@@ -30,13 +34,11 @@ void test_match_fallido_no_desarma_automatch() {
   TEST_ASSERT_TRUE(ac.canTryAutoMatch(false));
 }
 
-void setup() {
+int main() {
   UNITY_BEGIN();
   RUN_TEST(test_begin_habilita_automatch);
   RUN_TEST(test_no_intenta_match_si_hay_enroll_en_progreso);
   RUN_TEST(test_match_exitoso_desarma_automatch);
   RUN_TEST(test_match_fallido_no_desarma_automatch);
-  UNITY_END();
+  return UNITY_END();
 }
-
-void loop() {}
