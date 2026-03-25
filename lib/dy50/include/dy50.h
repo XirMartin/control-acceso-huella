@@ -1,5 +1,11 @@
 #pragma once
 
+/**
+ * @brief Encapsula la inicialización básica del sensor de huellas DY50.
+ *
+ * Esta clase representa una abstracción mínima del lector de huellas
+ * y concentra la lógica de arranque del módulo dentro del proyecto.
+ */
 class Dy50 {
  public:
   /**
