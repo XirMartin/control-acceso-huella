@@ -62,7 +62,7 @@ comando para correr tests: platformio.exe test
 
 En Windows, para correr `pio test -e native`, es necesario tener disponible `gcc/g++` (por ejemplo desde MSYS2/MinGW64) en el PATH de la terminal.
 
-lista de tests actuales: test_dummy, test_rnf01_rele_inicial
+lista de tests actuales: test_access_control, test_dummy, test_rf04_match_activa_rele, test_rf05_no_match_no_rele, test_rnf01_rele_inicial
 
 mención: RNF-01 validado (relé inicia LOW)
 
