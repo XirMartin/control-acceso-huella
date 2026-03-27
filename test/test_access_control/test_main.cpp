@@ -45,6 +45,17 @@ void test_estado_interno_refleja_automatch_armado_y_desarmado() {
   TEST_ASSERT_FALSE(ac.isAutoMatchArmed());
 }
 
+void test_armAutoMatch_vuelve_a_armar_el_estado() {
+  AccessControl ac;
+  ac.begin();
+
+  ac.handleMatchResult(true);
+  TEST_ASSERT_FALSE(ac.isAutoMatchArmed());
+
+  ac.armAutoMatch();
+  TEST_ASSERT_TRUE(ac.isAutoMatchArmed());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_begin_habilita_automatch);
@@ -52,5 +63,6 @@ int main() {
   RUN_TEST(test_match_exitoso_desarma_automatch);
   RUN_TEST(test_match_fallido_no_desarma_automatch);
   RUN_TEST(test_estado_interno_refleja_automatch_armado_y_desarmado);
+  RUN_TEST(test_armAutoMatch_vuelve_a_armar_el_estado);
   return UNITY_END();
 }

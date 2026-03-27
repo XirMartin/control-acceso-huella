@@ -130,13 +130,14 @@ test\test_access_control\test_main.cpp:51: test_no_intenta_match_si_hay_enroll_e
 test\test_access_control\test_main.cpp:52: test_match_exitoso_desarma_automatch [PASSED]
 test\test_access_control\test_main.cpp:53: test_match_fallido_no_desarma_automatch      [PASSED]
 test\test_access_control\test_main.cpp:54: test_estado_interno_refleja_automatch_armado_y_desarmado     [PASSED]
--------------------------- native:test_access_control [PASSED] Took 2.78 seconds -------------------------------- 
+test\test_access_control\test_main.cpp:66: test_armAutoMatch_vuelve_a_armar_el_estado   [PASSED]
+-------------------------- native:test_access_control [PASSED] Took 0.83 seconds -------------------------------- 
 
 ====================================================== SUMMARY ================================================== 
 Environment    Test                 Status    Duration
 -------------  -------------------  --------  ------------
-native         test_access_control  PASSED    00:00:02.783
-=================================== 5 test cases: 5 succeeded in 00:00:02.783 =================================== 
+native         test_access_control  PASSED    00:00:00.834
+=================================== 6 test cases: 6 succeeded in 00:00:00.834 =================================== 
 
 
 
