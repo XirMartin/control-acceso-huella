@@ -119,6 +119,16 @@ rymcu-esp32-s3-devkitc-1  test_rnf01_rele_inicial      PASSED    00:00:32.577
 
 ----
 
+native / test_access_control → PASSED (6 tests)
+
+rymcu-esp32-s3-devkitc-1 / test_dummy → PASSED
+rymcu-esp32-s3-devkitc-1 / test_rf04_match_activa_rele → PASSED
+rymcu-esp32-s3-devkitc-1 / test_rf05_no_match_no_rele → PASSED
+rymcu-esp32-s3-devkitc-1 / test_rnf01_rele_inicial → PASSED
+
+----
+
+
 Ultimas Pruebas:
 
 Processing test_access_control in native environment
