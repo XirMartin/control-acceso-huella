@@ -44,6 +44,17 @@ class AccessControl {
    */
   bool handleMatchResult(bool matchOk);
 
+  /**
+   * @brief Indica si el automatch está actualmente armado.
+   *
+   * Permite consultar el estado interno del módulo para validarlo
+   * desde pruebas unitarias u otra lógica de control.
+   *
+   * @return true si el automatch está armado.
+   * @return false si el automatch está desarmado.
+   */
+  bool isAutoMatchArmed() const;
+
  private:
   bool autoMatchArmed = true;
 };

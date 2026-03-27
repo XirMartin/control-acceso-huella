@@ -55,3 +55,16 @@ bool AccessControl::handleMatchResult(bool matchOk) {
 
   return false;
 }
+
+/**
+ * @brief Devuelve el estado actual del automatch.
+ *
+ * Permite consultar si la verificación automática permanece
+ * habilitada o si fue desarmada tras un match exitoso.
+ *
+ * @return true si el automatch está armado.
+ * @return false si el automatch está desarmado.
+ */
+bool AccessControl::isAutoMatchArmed() const {
+  return autoMatchArmed;
+}
