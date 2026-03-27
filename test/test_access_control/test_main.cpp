@@ -34,11 +34,23 @@ void test_match_fallido_no_desarma_automatch() {
   TEST_ASSERT_TRUE(ac.canTryAutoMatch(false));
 }
 
+void test_estado_interno_refleja_automatch_armado_y_desarmado() {
+  AccessControl ac;
+  ac.begin();
+
+  TEST_ASSERT_TRUE(ac.isAutoMatchArmed());
+
+  ac.handleMatchResult(true);
+
+  TEST_ASSERT_FALSE(ac.isAutoMatchArmed());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_begin_habilita_automatch);
   RUN_TEST(test_no_intenta_match_si_hay_enroll_en_progreso);
   RUN_TEST(test_match_exitoso_desarma_automatch);
   RUN_TEST(test_match_fallido_no_desarma_automatch);
+  RUN_TEST(test_estado_interno_refleja_automatch_armado_y_desarmado);
   return UNITY_END();
 }

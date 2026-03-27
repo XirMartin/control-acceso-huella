@@ -116,3 +116,27 @@ rymcu-esp32-s3-devkitc-1  test_rf04_match_activa_rele  PASSED    00:00:10.096
 rymcu-esp32-s3-devkitc-1  test_rf05_no_match_no_rele   PASSED    00:00:11.244
 rymcu-esp32-s3-devkitc-1  test_rnf01_rele_inicial      PASSED    00:00:32.577
 =============== 4 test cases: 4 succeeded in 00:01:03.063 ======================
+
+----
+
+Ultimas Pruebas:
+
+Processing test_access_control in native environment
+------------------------------------------------------------------------------------------------------------------
+Building...
+Testing...
+test\test_access_control\test_main.cpp:50: test_begin_habilita_automatch        [PASSED]
+test\test_access_control\test_main.cpp:51: test_no_intenta_match_si_hay_enroll_en_progreso      [PASSED]
+test\test_access_control\test_main.cpp:52: test_match_exitoso_desarma_automatch [PASSED]
+test\test_access_control\test_main.cpp:53: test_match_fallido_no_desarma_automatch      [PASSED]
+test\test_access_control\test_main.cpp:54: test_estado_interno_refleja_automatch_armado_y_desarmado     [PASSED]
+-------------------------- native:test_access_control [PASSED] Took 2.78 seconds -------------------------------- 
+
+====================================================== SUMMARY ================================================== 
+Environment    Test                 Status    Duration
+-------------  -------------------  --------  ------------
+native         test_access_control  PASSED    00:00:02.783
+=================================== 5 test cases: 5 succeeded in 00:00:02.783 =================================== 
+
+
+
